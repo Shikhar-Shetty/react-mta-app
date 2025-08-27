@@ -5,6 +5,7 @@ pipeline {
             steps {
                 cleanWs()
                 echo 'Workspace cleaned before checkout.'
+                echo "Don't you want me like i want you baby, all you gotta do is meet me at the APT-APT"
             }
         }
         stage("Checkout") {
