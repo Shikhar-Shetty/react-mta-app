@@ -14,8 +14,15 @@ pipeline {
         }
         stage("Docker build & Run") {
             steps {
-                sh "docker build -t etherealfrost019/mta-app:${BUILD_NUMBER} ."
-                sh "docker push etherealfrost019/mta-app:${BUILD_NUMBER}"
+                withCredentials([usernamePassword(
+                    credentialsId: "dockerHubCred",
+                    usernameVariable: "dockerHubUser",
+                    passwordVariable: "dockerHubPass"
+                )]) {
+                    sh "docker login -u $dockerHubUser -p $dockerHubPass"
+                    sh "docker build -t $dockerHubUser/mta-app:${BUILD_NUMBER} ."
+                    sh "docker push $dockerHubUser/mta-app:${BUILD_NUMBER}"
+                }
             }
         }
     }
